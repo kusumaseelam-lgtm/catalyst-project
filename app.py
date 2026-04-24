@@ -1,7 +1,8 @@
 import streamlit as st
 import json
+st.set_page_config(page_title="AI Talent Agent", layout="centered")
 
-st.title("AI Talent Scouting Agent")
+st.markdown("<h1 style='text-align: center;'>AI Talent Scouting Agent 🚀</h1>", unsafe_allow_html=True)
 
 # Load candidates
 with open("candidates.json") as f:
