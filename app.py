@@ -34,3 +34,7 @@ def match_score(candidate, jd_skills):
 # -----------------------------
 try:
     with open("candidates.json") as f:
+        candidates = json.load(f)
+except:
+    candidates = []
+    st.warning("No candidates.json file found")
