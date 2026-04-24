@@ -38,3 +38,34 @@ try:
 except:
     candidates = []
     st.warning("No candidates.json file found")
+jd_text = st.text_area("Enter Job Description")
+
+if st.button("Analyze Candidates"):
+
+    if not jd_text.strip():
+        st.error("Please enter job description")
+    else:
+        jd_skills = extract_skills(jd_text)
+
+        st.subheader("Extracted Skills:")
+        st.write(jd_skills)
+
+        results = []
+
+        for candidate in candidates:
+            score = match_score(candidate, jd_skills)
+            results.append({
+                "name": candidate["name"],
+                "score": score,
+                "skills": candidate["skills"]
+            })
+
+        results = sorted(results, key=lambda x: x["score"], reverse=True)
+
+        st.subheader("Candidate Rankings:")
+
+        for r in results:
+            st.write(f"👤 {r['name']}")
+            st.write(f"Skills: {r['skills']}")
+            st.write(f"Match Score: {r['score']}%")
+            st.write("---")
