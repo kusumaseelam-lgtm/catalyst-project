@@ -27,17 +27,23 @@ if st.button("Find Candidates"):
         interest = st.selectbox(f"{c['name']} interested?", ["Yes", "Maybe", "No"])
 
         interest_score = 90 if interest == "Yes" else 60 if interest == "Maybe" else 20
-        results.append((c["name"], score, interest_score))
+        results.append({
+    "name": c["name"],
+    "score": score,
+    "interest": interest_score,
+    "skills": c["skills"],
+    "matched_skills": list(set(c["skills"]) & set(jd_skills))
+})
+        
+        
+    results = sorted(results, key=lambda x: (x['score'], x['interest']), reverse=True)
 
-    results.sort(key=lambda x: (x[1], x[2]), reverse=True)
-
-    st.subheader("Ranking")
-
-    for r in results:
-        st.write(f"{r[0]} | Match: {r[1]} | Interest: {r[2]}")
-
-        for c in candidates:
-            if c["name"] == r[0]:
-                matched = set(c["skills"]) & set(jd_skills)
-                st.write(f"Matched skills: {matched}")
-    
+for r in results:
+    st.markdown(f"""
+### 👤 {r['name']}
+- 🎯 Match Score: **{r['score']}**
+- 💡 Interest: **{r['interest']}**
+- 🧠 Skills: {", ".join(r['skills'])}
+- ✅ Matched: {', '.join(r['matched_skills']) if r['matched_skills'] else 'No matching skills'}
+---
+""")
