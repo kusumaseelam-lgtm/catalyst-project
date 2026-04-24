@@ -1,3 +1,11 @@
+import streamlit as st
+import json
+
+st.title("AI Talent Scouting Agent")
+
+# Load candidates
+with open("candidates.json") as f:
+    candidates = json.load(f)
 jd = st.text_area("Enter Job Description")
 
 if st.button("Find Candidates"):
